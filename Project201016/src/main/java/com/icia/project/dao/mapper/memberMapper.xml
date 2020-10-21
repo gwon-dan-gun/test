@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Member">
+	<insert id="memberJoin" parameterType="member">
+		INSERT INTO
+		MEMBER2(MID,MPASSWORD,MNAME,MBIRTH,MEMAIL,MADDRESS,MPHONE,MFILENAME)
+		VALUES
+		(#{mid},#{mpassword},#{mname},#{mbirth},#{memail},#{maddress},#{mphone},#{mfilename})
+	</insert>
+	
+	
+	<insert id="kakaoMemberJoin" parameterType="member">
+		INSERT INTO MEMBER2(MID,MPASSWORD,MNAME,MBIRTH,MEMAIL,MADDRESS,MPHONE,MFILENAME,KAKAOID)
+		VALUES
+		(#{mid},#{mpassword},#{mname},#{mbirth},#{memail},#{maddress},#{mphone},#{mfilename},#{kakaoId})
+	</insert>
+	
+	<insert id="naverMemberJoin" parameterType="member">
+		INSERT INTO MEMBER2(MID,MPASSWORD,MNAME,MBIRTH,MEMAIL,MADDRESS,MPHONE,MFILENAME,NAVERID)
+		VALUES
+		(#{mid},#{mpassword},#{mname},#{mbirth},#{memail},#{maddress},#{mphone},#{mfilename},#{naverId})
+	</insert>
+
+
+	<select id="memberLogin" parameterType="member"
+		resultType="String">
+		SELECT MID FROM MEMBER2 WHERE MID=#{mid} AND
+		MPASSWORD=#{mpassword}
+	</select>
+
+	<select id="memberList" resultType="member">
+		SELECT * FROM MEMBER2
+	</select>
+
+	<select id="memberView" parameterType="String" resultType="member">
+		SELECT * FROM MEMBER2 WHERE MID=#{mid}
+	</select>
+	
+	<delete id="memberDelete" parameterType="String">
+		DELETE FROM MEMBER2 WHERE MID=#{mid}
+	</delete>
+	
+	<select id="idOverlap" parameterType="String" resultType="String">
+		SELECT MID FROM MEMBER2 WHERE MID=#{mid}
+	</select>
+	
+	<select id="kakaoLogin" parameterType="String" resultType="String">
+		SELECT MID FROM MEMBER2 WHERE KAKAOID=#{kakaoId}
+	</select>
+	
+	<select id="naverLogin" parameterType="String" resultType="String">
+		SELECT MID FROM MEMBER2 WHERE NAVERID=#{naverId}
+	</select>
+	
+	<update id="memberUpdate" parameterType="member">
+		UPDATE MEMBER2 SET MPHONE=#{mphone},MPASSWORD=#{mpassword}, MEMAIL=#{memail} WHERE MID=#{mid}
+	</update>
+
+
+
+
+
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 

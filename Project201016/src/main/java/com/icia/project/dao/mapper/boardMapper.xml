@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Board">
+	<insert id="boardWrite" parameterType="board">
+		INSERT INTO
+		BOARD2(BNUMBER,BWRITER,BPASSWORD,BTITLE,BCONTENTS, BDATE, BHITS)
+		VALUES(SEQ_BOARD2.NEXTVAL,#{bwriter},#{bpassword},#{btitle},#{bcontents},SYSDATE,0)
+	</insert>
+
+	<select id="boardList" resultType="board">
+		SELECT * FROM BOARD2
+	</select>
+	<update id="boardHits" parameterType="int">
+		UPDATE BOARD2 SET
+		BHITS=BHITS+1 WHERE BNUMBER=#{bnumber}
+	</update>
+
+	<select id="boardView" parameterType="int" resultType="board">
+		SELECT *
+		FROM BOARD2 WHERE BNUMBER =#{BNUMBER}
+	</select>
+
+	<update id="boardUpdate" parameterType="board">
+		UPDATE BOARD2 SET
+		BTITLE=#{btitle},BCONTENTS=#{bcontents} WHERE BNUMBER=#{bnumber}
+	</update>
+
+
+	<delete id="boardDelete" parameterType="int">
+		DELETE FROM BOARD2 WHERE
+		BNUMBER=#{bnumber}
+	</delete>
+
+	<insert id="boardWriteFile" parameterType="board">
+		INSERT INTO
+		BOARD2(BNUMBER,BWRITER,BPASSWORD,BTITLE,BCONTENTS, BDATE,
+		BHITS,BFILENAME)
+		VALUES(SEQ_BOARD2.NEXTVAL,#{bwriter},#{bpassword},#{btitle},#{bcontents},SYSDATE,0,#{bfilename})
+	</insert>
+
+	<select id="boardListCount" resultType="int">
+		SELECT COUNT(BNUMBER)
+		FROM BOARD2
+	</select>
+
+	<select id="boardListPaging" parameterType="page"
+		resultType="board">
+		SELECT * FROM (SELECT B.*,ROW_NUMBER() OVER(ORDER BY
+		BNUMBER DESC)
+		AS RN FROM BOARD2 B) WHERE RN BETWEEN #{startRow} and
+		#{endRow}
+	</select>
+
+
+	<select id="boardSearch" resultType="board" parameterType="java.util.HashMap">
+		SELECT * FROM BOARD2
+		<include refid="search"></include>
+	</select>
+
+	<sql id="search">
+		<choose>
+			<when test="type=='searchtitle'">
+				WHERE BTITLE LIKE '%'||#{word}||'%'
+			</when>
+			<when test="type=='searchwriter'">
+				WHERE BWRITER LIKE '%'||#{word}||'%'
+			</when>
+		</choose>
+	</sql>
+
+
+	
+
+
+
+</mapper>
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
